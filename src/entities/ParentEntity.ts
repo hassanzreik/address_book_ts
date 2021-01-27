@@ -4,14 +4,12 @@ import {Property} from "@mikro-orm/core";
 @ObjectType()
 export class ParentEntity{
 
-
-
     @Field(() => String)
     @Property({type: 'date', columnType: 'timestamp', nullable: true })
     createdAt? = new Date();
 
     @Field(() => String)
-    @Property({type:'date', columnType: 'timestamp', nullable: true })
+    @Property({type:'date', columnType: 'timestamp', nullable: true, onUpdate: () => new Date() })
     updatedAt? = new Date();
 
 }

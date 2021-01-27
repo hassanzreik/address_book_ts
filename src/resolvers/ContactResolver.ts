@@ -54,8 +54,6 @@ export class ContactResolver{
         @Arg('id') id : number,
         @Ctx() { em }:MyContext
     ): Promise<Boolean>{
-        const contact = await em.findOne(Contact, { id });
-
         try {
             await em.nativeDelete(Contact, {id});
             return true;
