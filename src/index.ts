@@ -10,14 +10,8 @@ import {ContactResolver} from "./resolvers/ContactResolver";
 const main = async () => {
     const orm = await MikroORM.init(mikroConfig);
     await orm.getMigrator().up();
-    // const post = orm.em.create(Post, {title: 'hassan title'});
-    // await orm.em.persistAndFlush(post);
 
     const app = express();
-    // app.get('/', (_, res) => {
-    //     res.send('helo');
-    // })
-
 
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
