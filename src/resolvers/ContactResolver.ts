@@ -1,18 +1,21 @@
-import {Arg, Ctx, Int, Mutation, Query, Resolver} from "type-graphql";
+import {Arg, Ctx, Mutation, Query, Resolver} from "type-graphql";
 import {Contact} from "../entities/Contact";
 import {MyContext} from "../types";
 
 @Resolver()
 export class ContactResolver{
+
     @Query(() => [Contact])
-    contacts( @Ctx() {em}: MyContext): Promise<Contact[]>{
+    contacts(
+        @Ctx() { em }: MyContext
+    ): Promise<Contact[]>{
         return em.find(Contact, {});
     }
 
     @Query(() => Contact, {nullable: true})
     contact(
         @Arg('id') id: number,
-        @Ctx() {em}:MyContext
+        @Ctx() { em }:MyContext
     ): Promise<Contact | null>{
         return em.findOne(Contact, { id });
     }
@@ -20,7 +23,7 @@ export class ContactResolver{
     @Mutation(() => Contact)
     async createContact(
         @Arg('firstName') firstName : string,
-        @Ctx() {em}:MyContext
+        @Ctx() { em }:MyContext
     ): Promise<Contact>{
         const contact = em.create(Contact, {firstName})
         await em.persistAndFlush(contact);
@@ -31,9 +34,9 @@ export class ContactResolver{
     async updateContact(
         @Arg('id') id : number,
         @Arg('firstName', ()=> String, {nullable: true}) firstName : string,
-        @Ctx() {em}:MyContext
+        @Ctx() { em }:MyContext
     ): Promise<Contact | null>{
-        const contact = em.findOne(Contact, { id });
+        const contact = await em.findOne(Contact, { id });
 
         if(!contact){
             return null;
@@ -44,6 +47,21 @@ export class ContactResolver{
             await em.persistAndFlush(contact);
         }
         return contact;
+    }
+
+    @Mutation(() => Boolean)
+    async deleteContact(
+        @Arg('id') id : number,
+        @Ctx() { em }:MyContext
+    ): Promise<Boolean>{
+        const contact = await em.findOne(Contact, { id });
+
+        try {
+            await em.nativeDelete(Contact, {id});
+            return true;
+        }catch {
+            return false;
+        }
     }
 
 }
