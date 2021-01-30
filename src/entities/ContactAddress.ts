@@ -37,7 +37,7 @@ export class ContactAddress {
 
   @Field()
   @PrimaryKey({ columnType: 'bigint' })
-  id!: string;
+  id!: number;
 
   @Field()
   @ManyToOne({ entity: () => Label, cascade: [], nullable: true, index: 'contact_addresses_label_id_fk' })

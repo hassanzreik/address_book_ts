@@ -81,14 +81,12 @@ export class UserResolver {
         try {
             await em.persistAndFlush(user);
         } catch (err) {
-            //|| err.detail.includes("already exists")) {
-            // duplicate username error
-            if (err.code === "23505") {
+            if (err.code === "ER_DUP_ENTRY") {
                 return {
                     errors: [
                         {
-                            field: "username",
-                            message: "username already taken",
+                            field: "email",
+                            message: "email already taken",
                         },
                     ],
                 };
@@ -114,9 +112,9 @@ export class UserResolver {
                 ],
             };
         }
-        // try {
+
         const valid = await argon2.verify(user.password, options.password);
-        console.log(valid);
+
         if (!valid) {
             return {
                 errors: [
@@ -127,22 +125,6 @@ export class UserResolver {
                 ],
             };
         }
-        // } catch (err) {
-        //     //...
-        //
-        //     return {
-        //         errors: [
-        //             {
-        //                 field: "password",
-        //                 message: err.message,
-        //             },
-        //         ],
-        //     };
-        // }
-
-
-
-
 
         return {
             user,

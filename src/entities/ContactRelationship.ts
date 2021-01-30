@@ -20,7 +20,7 @@ export class ContactRelationship {
 
   @Field()
   @PrimaryKey({ columnType: 'bigint' })
-  id!: string;
+  id!: number;
 
   @Field()
   @ManyToOne({ entity: () => Label, cascade: [Cascade.ALL], index: 'contact_relationships_label_id_fk' })

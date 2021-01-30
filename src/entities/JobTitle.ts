@@ -15,7 +15,7 @@ export class JobTitle {
 
   @Field()
   @PrimaryKey({ columnType: 'bigint' })
-  id!: string;
+  id!: number;
 
   @Field()
   @Index({ name: 'job_titles_title_idx' })

@@ -21,7 +21,7 @@ export class User extends ParentEntity{
 
   @Field()
   @PrimaryKey({ columnType: 'bigint' })
-  id!: string;
+  id!: number;
 
   @Field()
   @Property({ length: 255 })

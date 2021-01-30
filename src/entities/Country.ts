@@ -18,7 +18,7 @@ export class Country {
 
   @Field()
   @PrimaryKey({ columnType: 'bigint' })
-  id!: string;
+  id!: number;
 
   @Property({ nullable: true })
   isActive?: boolean = true;

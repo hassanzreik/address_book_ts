@@ -27,7 +27,7 @@ export class Contact extends ParentEntity{
 
   @Field()
   @PrimaryKey({ columnType: 'bigint' })
-  id!: string;
+  id!: number;
 
   @Field()
   @ManyToOne({ entity: () => JobTitle, cascade: [], nullable: true, index: 'contacts_job_title_id_fk' })

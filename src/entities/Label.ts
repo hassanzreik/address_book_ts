@@ -14,7 +14,7 @@ export class Label {
 
   @Field()
   @PrimaryKey({ columnType: 'bigint' })
-  id!: string;
+  id!: number;
 
   @Field()
   @Property({ columnType: 'enum' })
