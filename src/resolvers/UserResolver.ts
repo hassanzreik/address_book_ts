@@ -5,11 +5,15 @@ import {
     InputType,
     Field,
     Ctx,
-    ObjectType,
+    ObjectType, UseMiddleware, Query,
 } from "type-graphql";
 import { MyContext } from "../types";
 import { User } from "../entities/User";
 import * as argon2 from "argon2";
+import {sign} from "jsonwebtoken";
+import {JWT_SECRET} from "../constants";
+import {isAuth} from "../middlewares/isAuth";
+import {FieldError} from "../entities/Error";
 
 
 @InputType()
@@ -30,13 +34,6 @@ class LoginInput {
     password: string;
 }
 
-@ObjectType()
-class FieldError {
-    @Field()
-    field: string;
-    @Field()
-    message: string;
-}
 
 @ObjectType()
 class UserResponse {
@@ -126,8 +123,36 @@ export class UserResolver {
             };
         }
 
+        user.accessToken = sign({ userId: user.id }, JWT_SECRET, {
+            expiresIn: "15m"
+        });
+
+
         return {
             user,
         };
+    }
+
+    @Query(() => UserResponse)
+    @UseMiddleware(isAuth)
+    async profile(@Ctx() { em,payload }: MyContext) {
+
+        try {
+            const user = await em.findOne(User, { id: payload!.userId });
+
+            return {
+                user,
+            };
+
+        }catch (err){
+            return {
+                errors: [
+                    {
+                        field: "token",
+                        message: "Not authenticated",
+                    },
+                ],
+            };
+        }
     }
 }

@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property, Unique } from '@mikro-orm/core';
-import {Field, ObjectType} from "type-graphql";
+import {Field, ID, ObjectType} from "type-graphql";
 import {ParentEntity} from "./ParentEntity";
 
 @ObjectType()
@@ -19,7 +19,7 @@ export class User extends ParentEntity{
   @Property({ columnType: 'timestamp', nullable: true })
   emailVerifiedAt?: Date;
 
-  @Field()
+  @Field(() => ID)
   @PrimaryKey({ columnType: 'bigint' })
   id!: number;
 
@@ -33,4 +33,6 @@ export class User extends ParentEntity{
   @Property({ length: 100, nullable: true })
   rememberToken?: string;
 
+  @Field()
+  accessToken?: string;
 }

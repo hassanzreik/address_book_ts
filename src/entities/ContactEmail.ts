@@ -1,7 +1,7 @@
 import { Cascade, Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { Contact } from './Contact';
 import { Label } from './Label';
-import {Field, ObjectType} from "type-graphql";
+import {Field, ID, ObjectType} from "type-graphql";
 
 @ObjectType()
 @Entity({tableName: 'contact_emails'})
@@ -19,7 +19,7 @@ export class ContactEmail {
   @Property({ length: 255 })
   email!: string;
 
-  @Field()
+  @Field(() => ID)
   @PrimaryKey({ columnType: 'bigint' })
   id!: number;
 

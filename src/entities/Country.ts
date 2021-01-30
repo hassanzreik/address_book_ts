@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
-import {Field, ObjectType} from "type-graphql";
+import {Field, ID, ObjectType} from "type-graphql";
 
 @ObjectType()
 @Entity({tableName: 'countries'})
@@ -16,7 +16,7 @@ export class Country {
   @Property({ length: 30 })
   icon!: string;
 
-  @Field()
+  @Field(() => ID)
   @PrimaryKey({ columnType: 'bigint' })
   id!: number;
 

@@ -1,7 +1,7 @@
 import { Cascade, Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { Contact } from './Contact';
 import { Label } from './Label';
-import {Field} from "type-graphql";
+import {Field, ID} from "type-graphql";
 
 @Entity({tableName: 'contact_social_profiles'})
 export class ContactSocialProfile {
@@ -17,7 +17,7 @@ export class ContactSocialProfile {
   @Property({ columnType: 'timestamp', nullable: true })
   deletedAt?: Date;
 
-  @Field()
+  @Field(() => ID)
   @PrimaryKey({ columnType: 'bigint' })
   id!: number;
 

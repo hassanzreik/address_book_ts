@@ -1,5 +1,5 @@
 import { Entity, Index, PrimaryKey, Property } from '@mikro-orm/core';
-import {Field, ObjectType} from "type-graphql";
+import {Field, ID, ObjectType} from "type-graphql";
 
 @ObjectType()
 @Entity({tableName: 'job_titles'})
@@ -13,7 +13,7 @@ export class JobTitle {
   @Property({ columnType: 'timestamp', nullable: true })
   deletedAt?: Date;
 
-  @Field()
+  @Field(() => ID)
   @PrimaryKey({ columnType: 'bigint' })
   id!: number;
 

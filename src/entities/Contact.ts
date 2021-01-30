@@ -2,7 +2,7 @@ import { Cascade, Entity, Index, ManyToOne, PrimaryKey, Property } from '@mikro-
 import { JobTitle } from './JobTitle';
 import { Label } from './Label';
 import { User } from './User';
-import {Field, ObjectType} from "type-graphql";
+import {Field, ID, ObjectType} from "type-graphql";
 import {ParentEntity} from "./ParentEntity";
 
 @ObjectType()
@@ -25,7 +25,7 @@ export class Contact extends ParentEntity{
   @Property({ length: 255 })
   firstName!: string;
 
-  @Field()
+  @Field(() => ID)
   @PrimaryKey({ columnType: 'bigint' })
   id!: number;
 
